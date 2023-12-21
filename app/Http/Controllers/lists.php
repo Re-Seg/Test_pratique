@@ -9,13 +9,14 @@ class lists extends Controller
             $city = $_GET['city'];
             $resultat = \App\Models\city::all();
             foreach($resultat as $keys=> $value) {
-                if (strcmp($resultat[$keys]['city'], $city)){
+                $test = \App\Models\city::where('city', '=', $city )->first();
+                if (isset($test)){
                     $a=1;
                     $tab = ["0"];
-                    $idCountry = $resultat[$keys]['country_id'];
+                    $idCountry = $test['country_id'];              
                     while($a<6) {
-                        $country = \App\Models\country::find($idCountry);
-                        $country = $country['country'];
+                        $country =  \App\Models\country::all();
+                        $country = $country[$idCountry-1]['country'];
                         $tab[]="city/$country/$city/$city$a.jpg";
                         $a++;
                     }
